@@ -1,0 +1,100 @@
+<div class="automation-panel">
+  <div class="automation-content p-4">
+    <div class="step-1" *ngIf="step === 1">
+      <h1 class="font-bold">Step 1: For loop</h1>
+      <p class="py-8" *ngIf="parentElements.length < 2">Select an element</p>
+      <div class="py-8" *ngIf="parentElements.length > 2">
+        <p>
+          Great! You selected 2 elements, we predicted
+          {{ predictedParentsCount }} additional element{{
+            predictedParentsCount > 1 ? "s" : ""
+          }}
+        </p>
+        <p>In total, {{ selectedParentsCount }} elements are selected</p>
+      </div>
+      <div class="flex justify-end gap-3">
+        <button
+          class="px-4 py-2 rounded border border-blue-500 text-blue-500"
+          (click)="reset()"
+        >
+          Reset
+        </button>
+        <button
+          class="px-4 py-2 rounded bg-blue-500 text-white"
+          (click)="step = 2"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+    <div class="step-2" *ngIf="step === 2">
+      <h1 class="font-bold">
+        Step 2: Choose a child-action for each loop element
+      </h1>
+      <p class="py-4">Add action you want the bot to do on the page</p>
+      <div class="flex gap-4">
+        <button
+          (click)="subAction = 'click'; step = 3"
+          [class]="{
+            'border-blue-500': isClickSubAction,
+            'border-gray-400': !isClickSubAction
+          }"
+          class="px-5 py-2 border"
+        >
+          Click a button
+        </button>
+        <button
+          (click)="subAction = 'input'; step = 3"
+          [class]="{
+            'border-blue-500': isInputSubAction,
+            'border-gray-400': !isInputSubAction
+          }"
+          class="px-5 py-2 border"
+        >
+          Input Text
+        </button>
+      </div>
+      <div class="flex justify-end gap-3">
+        <button
+          class="px-4 py-2 rounded bg-blue-500 text-white"
+          [disabled]="!childElements.length"
+          (click)="runBot()"
+        >
+          Run bot
+        </button>
+      </div>
+    </div>
+    <div class="step-3" *ngIf="step === 3">
+      <h1 class="font-bold">
+        Step 3: Click <span *ngIf="isClickSubAction">a button</span>
+        <span *ngIf="isInputSubAction">an input field</span>
+      </h1>
+      <p class="py-4" *ngIf="!childElements.length || isClickSubAction">
+        Select an <span *ngIf="isInputSubAction">input</span> element
+      </p>
+      <div class="py-4" *ngIf="isInputSubAction && childElements.length">
+        <p>Enter some text</p>
+        <input
+          type="text"
+          placeholder="Ex: search keyword, description..."
+          class="px-2 py-1 my-1"
+          [(ngModel)]="inputValue"
+        />
+      </div>
+      <div class="flex justify-end gap-3">
+        <button
+          class="px-4 py-2 rounded border border-blue-500 text-blue-500"
+          (click)="reset()"
+        >
+          Reset
+        </button>
+        <button
+          class="px-4 py-2 rounded bg-blue-500 text-white"
+          (click)="step = 2"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

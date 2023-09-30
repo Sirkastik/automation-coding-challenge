@@ -1,0 +1,14 @@
+.automation-panel {
+  width: 100%;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  border-radius: 2px;
+}
+.automation-panel .automation-content {
+  background: white;
+  margin: 0 auto;
+  height: 200px;
+  border-radius: 5px;
+  width: 90%;
+}

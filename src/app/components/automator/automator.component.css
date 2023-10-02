@@ -12,3 +12,37 @@
   border-radius: 5px;
   width: 90%;
 }
+
+.inspector-size-indicator {
+  z-index: 9999;
+  position: fixed;
+  background-color: #42b88325;
+  border: 1px solid #42b88350;
+  border-radius: 5px;
+  transition: all 0.1s ease-in;
+  pointer-events: none;
+}
+
+::ng-deep .--user-selected {
+  border: 1px solid green;
+}
+
+::ng-deep .--user-selected.--dashed {
+  border: 2px dashed lightgreen;
+}
+
+::ng-deep .--user-selected.--dark {
+  border-width: 2px;
+}
+
+::ng-deep .--algo-selected {
+  border: 1px solid blue;
+}
+
+::ng-deep .--algo-selected.--dashed {
+  border: 2px dashed turquoise;
+}
+
+::ng-deep .--algo-selected.--dark {
+  border-width: 3px;
+}

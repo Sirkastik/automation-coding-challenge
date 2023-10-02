@@ -1,16 +1,16 @@
-<div class="automation-panel">
+<div class="automation-panel" inspector-ignore="true">
   <div class="automation-content p-4">
     <div class="step-1" *ngIf="step === 1">
       <h1 class="font-bold">Step 1: For loop</h1>
-      <p class="py-8" *ngIf="parentElements.length < 2">Select an element</p>
-      <div class="py-8" *ngIf="parentElements.length > 2">
+      <p class="py-8" *ngIf="selectedElements.length < 2">Select an element</p>
+      <div class="py-8" *ngIf="selectedElements.length > 2">
         <p>
           Great! You selected 2 elements, we predicted
           {{ predictedParentsCount }} additional element{{
             predictedParentsCount > 1 ? "s" : ""
           }}
         </p>
-        <p>In total, {{ selectedParentsCount }} elements are selected</p>
+        <p>In total, {{ selectedElements.length }} elements are selected</p>
       </div>
       <div class="flex justify-end gap-3">
         <button
@@ -21,7 +21,12 @@
         </button>
         <button
           class="px-4 py-2 rounded bg-blue-500 text-white"
+          [class]="{
+            'bg-blue-500 text-white': selectedElements.length,
+            'bg-gray-400': !selectedElements.length
+          }"
           (click)="step = 2"
+          [disabled]="!selectedElements.length"
         >
           Save
         </button>
@@ -34,7 +39,7 @@
       <p class="py-4">Add action you want the bot to do on the page</p>
       <div class="flex gap-4">
         <button
-          (click)="subAction = 'click'; step = 3"
+          (click)="onChooseSubAction('click')"
           [class]="{
             'border-blue-500': isClickSubAction,
             'border-gray-400': !isClickSubAction
@@ -44,7 +49,7 @@
           Click a button
         </button>
         <button
-          (click)="subAction = 'input'; step = 3"
+          (click)="onChooseSubAction('input')"
           [class]="{
             'border-blue-500': isInputSubAction,
             'border-gray-400': !isInputSubAction
@@ -57,7 +62,11 @@
       <div class="flex justify-end gap-3">
         <button
           class="px-4 py-2 rounded bg-blue-500 text-white"
-          [disabled]="!childElements.length"
+          [class]="{
+            'bg-blue-500 text-white': selectedSubElements.length,
+            'bg-gray-400': !selectedSubElements.length
+          }"
+          [disabled]="!selectedSubElements.length"
           (click)="runBot()"
         >
           Run bot
@@ -69,10 +78,10 @@
         Step 3: Click <span *ngIf="isClickSubAction">a button</span>
         <span *ngIf="isInputSubAction">an input field</span>
       </h1>
-      <p class="py-4" *ngIf="!childElements.length || isClickSubAction">
+      <p class="py-4" *ngIf="!selectedSubElements.length || isClickSubAction">
         Select an <span *ngIf="isInputSubAction">input</span> element
       </p>
-      <div class="py-4" *ngIf="isInputSubAction && childElements.length">
+      <div class="py-4" *ngIf="isInputSubAction && selectedSubElements.length">
         <p>Enter some text</p>
         <input
           type="text"
@@ -97,4 +106,9 @@
       </div>
     </div>
   </div>
+  <div
+    class="inspector-size-indicator"
+    [style]="sizeIndicatorStyle"
+    *ngIf="showOverlay"
+  ></div>
 </div>
